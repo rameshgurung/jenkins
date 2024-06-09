@@ -11,12 +11,15 @@ pipeline {
         }
         stage('build') {
             steps {
-                echo 'build'
+                echo 'build with docker'
+                // sh 'docker stop $(docker ps -q) && docker system prune -a'
+                sh 'docker build -t my_jp_image .'
             }
         }
         stage('deploy') {
             steps {
                 echo 'deploy'
+                sh 'docker run -d --name my_jp_container -p 80:80 my_jp_image'
             }
         }
     }
