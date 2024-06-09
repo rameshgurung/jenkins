@@ -1,10 +1,24 @@
 pipeline {
-    agent { docker { image 'php' } }
+    agent any
+    // server name as defined in jenkins as nodes
     stages {
-        stage('build') {
+        stage('git clone') {
             steps {
-                sh 'php --version'
+                echo 'git clone'
+                git 'https://github.com/rameshgurung/jenkins.git'
             }
         }
     }
 }
+
+
+// pipeline {
+//     agent { docker { image 'php' } }
+//     stages {
+//         stage('build') {
+//             steps {
+//                 sh 'php --version'
+//             }
+//         }
+//     }
+// }
