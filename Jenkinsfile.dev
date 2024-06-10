@@ -11,7 +11,9 @@ pipeline {
         }
         stage('build') {
             steps {
-                sh 'docker stop $(docker ps -q) && docker system prune -a'
+                // sh 'docker stop $(docker ps -q) && docker system prune -a'
+                sh 'docker rm -vf $(docker ps -aq)'
+                sh 'docker rmi -f $(docker images -aq)'
                 echo 'build with docker'
                 //sh 'docker stop my_jp_container_dev'
                 sh 'docker build -t my_jp_image_dev .'
