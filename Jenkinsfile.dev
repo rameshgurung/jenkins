@@ -2,6 +2,12 @@ pipeline {
     agent any
     // server name as defined in jenkins as nodes
     stages {
+        stage('scan repo') {
+            steps {
+                echo 'scan repo'
+                sh 'trivy repo https://github.com/rameshgurung/jenkins.git'
+            }
+        }
         stage('git clone') {
             steps {
                 echo 'git clone'
@@ -12,11 +18,18 @@ pipeline {
         stage('build') {
             steps {
                 // sh 'docker stop $(docker ps -q) && docker system prune -a'
-                sh 'docker rm -vf $(docker ps -aq)'
-                sh 'docker rmi -f $(docker images -aq)'
+                // sh 'docker rm -vf $(docker ps -aq)'
+                // sh 'docker rmi -f $(docker images -aq)'
+                sh 'docker system prune -af'
                 echo 'build with docker'
                 //sh 'docker stop my_jp_container_dev'
                 sh 'docker build -t my_jp_image_dev .'
+            }
+        }
+        stage('scan image') {
+            steps {
+                echo 'scan image'
+                sh 'trivy image my_jp_image_dev'
             }
         }
         stage('deploy') {
