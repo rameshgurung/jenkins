@@ -35,7 +35,7 @@ pipeline {
         stage('deploy') {
             steps {
                 echo 'deploy'
-                sh 'docker run -d --name my_jp_container_dev -p 81:80 my_jp_image_dev'
+                sh 'docker run -d --name my_jp_container_dev -p 80:80 my_jp_image_dev'
             }
         }
     }
